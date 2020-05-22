@@ -7,7 +7,7 @@ function App() {
     <div className="gray-background">
      <img src={logo} lat="logo" alt="logo"/>
         
-     <h3> Let`s go 바꾸자
+     <h3> Let`s go
     
      </h3>
     </div> 
