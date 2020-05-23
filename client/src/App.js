@@ -7,7 +7,8 @@ import {
   TableCell,
   TableBody,
   TableHead,
-  Paper
+  Paper,
+  CircularProgress
 } from "@material-ui/core";
 import {withStyles} from '@material-ui/core/styles';
 
@@ -19,28 +20,40 @@ const styles= theme => ({
   },
   table:{
     minWidth: 1080
+  },
+  progress: {
+    margin: theme.spacing.unit * 2
   }
 })
 
 class App extends Component {
   state = {
-    customers: ""
+    customers: "",
+    completed: 0
   }
-   
+  //특정한 view를 출력하고자 하면 componentDidMount를 사용
+  // 응답이 돌아왔을 때 상태가 변화되고, react에서 상태변화를 감지, 자동으로 갱신한다. 
   componentDidMount(){
+    this.timer = setInterval(this.progress, 20);
     this.callApi()
     .then(res => this.setState({customers:res}))
     .catch(err => console.log(err))
   }
-
+  //Api를 비동기적으로 호출해서 사용, 
   callApi = async () => {
     const response = await fetch('/api/customers');
     const body = await response.json();
     return body;
   }
 
+  progress = () => {
+    const {completed} = this.state;
+    this.setState({completed: completed >= 100 ? 0 : completed + 1});
+  }
+
   render(){
     const {classes} = this.props;
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -67,7 +80,12 @@ class App extends Component {
                 job={c.job}
               />
             );
-          }) :  "" }
+          }) :  <TableRow>
+            <TableCell colSpan="6" align="center">
+            <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
+            </TableCell>
+            </TableRow>
+            }
         </TableBody>
       </Table>
     </Paper>
