@@ -1,5 +1,5 @@
-const express = require("express");
 const fs = require('fs');
+const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,9 +22,9 @@ connection.connect();
  
 app.get("/api/customers", (req, res) => {
     connection.query(
-        "SELECT * FROM CUSTOMER",
+        "SELECT * FROM customer",
         (err, rows, fields)=> {
-            res.send();
+            res.send(rows);
         }
     )
 
