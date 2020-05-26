@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Axios from "axios";
 
 class CustomerAdd extends React.Component {
+    
   constructor(props) {
     super(props);
     this.state = {
@@ -19,6 +20,15 @@ class CustomerAdd extends React.Component {
       this.addCustomer()
       .then((response)=> {
           console.log(response.data);
+          this.props.stateRefresh(); 
+      })
+      this.setState({
+          file:null,
+          userName:'',
+          birth:'',
+          gender:'',
+          job:'',
+          fileName:''
       })
   }
 

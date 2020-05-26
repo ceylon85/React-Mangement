@@ -28,10 +28,21 @@ const styles = (theme) => ({
 });
 
 class App extends Component {
-  state = {
-    customers: "",
-    completed: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: "",
+      completed: 0,
+    };
+  this.stateRefresh = this.stateRefresh.bind(this);   
+  }
+
+  stateRefresh = () => {
+    this.callApi()
+      .then((res) => this.setState({ customers: res }))
+      .catch((err) => console.log(err));
   };
+
   //특정한 view를 출력하고자 하면 componentDidMount를 사용
   // 응답이 돌아왔을 때 상태가 변화되고, react에서 상태변화를 감지, 자동으로 갱신한다.
   componentDidMount() {
@@ -98,7 +109,7 @@ class App extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd />
+        <CustomerAdd stateRefresh={this.stateRefresh} />
       </div>
     );
   }
