@@ -24,9 +24,12 @@ const multer = require("multer");
 const upload = multer({ dest: "./upload" });
 
 app.get("/api/customers", (req, res) => {
-  connection.query("SELECT * FROM customer", (err, rows, fields) => {
-    res.send(rows);
-  });
+  connection.query(
+    "SELECT * FROM customer WHERE isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  );
 });
 //image 폴더에서 upload 폴더에 접근해서
 //사용자가 직접 프로필 이미지로 사용할 수 있게
@@ -34,7 +37,7 @@ app.use("/image", express.static("./upload"));
 
 app.post("/api/customers", upload.single("image"), (req, res) => {
   //첫번째 값은 자동 증가로 했기에 null 값으로 두고 총 5개의 값이 전달
-  let sql = "INSERT INTO customer VALUES (null, ?, ?, ?, ?, ?)";
+  let sql = "INSERT INTO customer VALUES (null, ?, ?, ?, ?, ?, now(), 0)";
   //사용자는 image라는 이름의 변수로 실제로 프로필 이미지에 bynary data로 우리 서버에 전송을 한다  이 때 filename은 multer가 겹치지 않게 자동으로 설정해준다
   let image = "/image/" + req.file.filename; //사용자는 image폴더에 있는 경로로 접근
   let name = req.body.name;
@@ -43,6 +46,14 @@ app.post("/api/customers", upload.single("image"), (req, res) => {
   let job = req.body.job;
   let params = [image, name, birth, gender, job]; //차례대로 실제 db에 들어감
   //connection을 이용해 query함수 안에서 파라미터를 전송할 수 있게
+  connection.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.delete("/api/customers/:id", (req, res) => {
+  let sql = "UPDATE customer SET isDeleted = 1 where id = ?";
+  let params = [req.params.id];
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });
