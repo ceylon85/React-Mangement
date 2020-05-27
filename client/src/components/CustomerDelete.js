@@ -39,11 +39,11 @@ class CustomerDelete extends React.Component {
         <Button
           variant="contained"
           color="secondary"
-          onClick={this.handleClose}
+          onClick={this.handleClickOpen}
         >
           삭제
         </Button>
-        <Dialog open={this.state.open} close={this.handleClose}>
+        <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle onClose={this.handleClose}>삭제 경고</DialogTitle>
           <DialogContent>
             <Typography gutterBottom>선택한 고객 정보가 삭제됩니다.</Typography>
@@ -53,14 +53,13 @@ class CustomerDelete extends React.Component {
               variant="contained"
               color="primary"
               onClick={(e) => {
-                this.deleteCustomer(this.props.id);
-              }}
+                this.deleteCustomer(this.props.id)}}
             >
               {" "}
               삭제
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               onClick={this.handleClose}
             >

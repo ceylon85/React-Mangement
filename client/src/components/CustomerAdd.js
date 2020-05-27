@@ -13,7 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   hidden: {
-    display: "",
+    display: "none",
   },
 });
 class CustomerAdd extends React.Component {
@@ -43,7 +43,7 @@ class CustomerAdd extends React.Component {
       gender: "",
       job: "",
       fileName: "",
-      open: false
+      open: false,
     });
   };
 
@@ -106,16 +106,31 @@ class CustomerAdd extends React.Component {
         >
           고객 추가하기
         </Button>
-        <Dialog open={this.state.open} onClose={this.state.handleClose}>
+        <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle>고객 추가</DialogTitle>
           <DialogContent>
-              <input className={classes.hidden} accept="image/*" id="raised-button-file" type="file" file={this.state.file} value={this.state.fileName}/>
+            <input
+              className={classes.hidden}
+              accept="image/*"
+              id="raised-button-file"
+              type="file"
+              file={this.state.file}
+              value={this.state.fileName}
+              onChange={this.handleFileChange}
+            />
             <label htmlFor="raised-button-file">
-                <Button variant="contained" color="primary" component="span" name="file" >
-                    {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
-                </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                component="span"
+                name="file"
+              >
+                {this.state.fileName === ""
+                  ? "프로필 이미지 선택"
+                  : this.state.fileName}
+              </Button>
             </label>
-            <br/>
+            <br />
             <TextField
               label="이름"
               type="text"
@@ -149,8 +164,20 @@ class CustomerAdd extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>추가</Button>
-            <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleFormSubmit}
+            >
+              추가
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleClose}
+            >
+              닫기
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
