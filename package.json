@@ -12,6 +12,7 @@
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
   "dependencies": {
+    "@material-ui/icons": "^4.9.1",
     "body-parser": "^1.18.3",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",
